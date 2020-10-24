@@ -45,15 +45,15 @@ export function fetchServiceRequest() {
 export function fetchServiceSuccess(item) {
     return { type: FETCH_SERVICE_SUCCESS, payload: { item } };
 }
-export function fetchServiceFailure(err) {
-    return { type: FETCH_SERVICE_FAILURE, payload: { err } };
+export function fetchServiceFailure(error) {
+    return { type: FETCH_SERVICE_FAILURE, payload: { error } };
 }
-export function removeServiceRequest() {
-    return { type: REMOVE_SERVICE_REQUEST };
+export function removeServiceRequest(id) {
+    return { type: REMOVE_SERVICE_REQUEST, payload: { id } };
 }
-export function removeServiceSuccess() {
-    return { type: REMOVE_SERVICE_SUCCESS };
+export function removeServiceSuccess(id) {
+    return { type: REMOVE_SERVICE_SUCCESS, payload: { id } };
 }
-export function removeServiceFailure(Err) {
-    return { type: REMOVE_SERVICE_FAILURE, payload: { Err } };
+export function removeServiceFailure(error, id) {
+    return { type: REMOVE_SERVICE_FAILURE, payload: { error, id } };
 }

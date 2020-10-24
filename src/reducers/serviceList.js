@@ -21,15 +21,13 @@ export default function serviceListReducer(state = initialState, action) {
         const { items } = action.payload;
         return { ...state, loading:false, items };
       case FETCH_SERVICES_FAILURE:
-        const { error } = action.payload;
-        return { ...state, loading:false, error:error };
+        return { ...state, loading:false, error:action.payload.error };
       case REMOVE_SERVICE_REQUEST:
-        return { ...state, loading:true, error:null };
+        return { ...state, items: [ ...state.items.map(o => ((o.id === action.payload.id) ? {...o, loading: true } : o ))],  error:null };
       case REMOVE_SERVICE_SUCCESS:
-        return { ...state, loading:false, error:null };
+        return { ...state,  items: [ ...state.items.map(o => ((o.id === action.payload.id) ? {...o, loading:false } : o)) ], error:null };
       case REMOVE_SERVICE_FAILURE:
-        const { Err } = action.payload;
-        return { ...state, loading:false, error:Err };
+        return { ...state,  items: [ ...state.items.map(o => ((o.id === action.payload.id) ? { ...o, loading:false } : o)) ], error: action.payload.error };
       default:
         return state;
     }

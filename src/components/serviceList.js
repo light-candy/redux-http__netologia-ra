@@ -27,9 +27,14 @@ export function ServiceList(){
     const { items, loading, error } = useSelector((state) => state.serviceList);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+       fetchServices(dispatch);
+    }, [dispatch]);
+
+
     const handleRemove = useCallback(
            async (id) => {
-              dispatch(removeServiceRequest());
+              dispatch(removeServiceRequest(id));
               try {
                 const response = await fetch(`http://localhost:7070/api/services/${id}`, {
                   method: 'DELETE'
@@ -37,18 +42,15 @@ export function ServiceList(){
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                dispatch(removeServiceSuccess());
+                dispatch(removeServiceSuccess(id));
                 fetchServices(dispatch);
               }  catch(error) {
-                  dispatch(removeServiceFailure(error.message));
+                  dispatch(removeServiceFailure(error.message, id));
               }
            },
            [dispatch]
     );
 
-    useEffect(() => {
-       fetchServices(dispatch);
-    }, [dispatch]);
 
     if (loading) {
         return(<div className="loader"></div>);
@@ -59,23 +61,27 @@ export function ServiceList(){
    
     return(
        <ul>
-         {items.map(({ id, name, price }) => (
-         <li key={id}>
-           {`${name} ${price}`}
+         {items.map((item) => (
+             <li key={item.id}>
+           {`${item.name} ${item.price}`}
+           {item.loading ?
+           <button className="button" disabled>
+             <div className="loader_button"></div>
+           </button> :
            <div>
-             <Link to={`/services/${id}`} className="button button_list">
+             <Link to={`/services/${item.id}`} className="button button_list">
                <span className="material-icons">
                  create
                </span>
              </Link>
-             <button onClick={() => handleRemove(id)} className="button button_list">
+             <button onClick={() => handleRemove(item.id)} className="button button_list">
                <span className="material-icons">
                  close
                </span>
              </button>
-           </div>
+           </div>}
          </li>
          ))}
-       </ul>
+        </ul>
     );
 }
