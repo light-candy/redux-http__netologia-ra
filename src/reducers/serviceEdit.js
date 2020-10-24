@@ -39,7 +39,6 @@ export default function serviceEditReducer (state = initialState, action) {
       case SAVE_SERVICE_FAILURE:
         const { error } = action.payload;
         return { ...state, item:{...state.item, loading:false}, error:error };
-
       default:
         return state;
     }   

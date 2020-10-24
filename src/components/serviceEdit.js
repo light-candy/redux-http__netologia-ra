@@ -65,6 +65,7 @@ export function ServiceEdit() {
             } catch(error) {
                dispatch(saveServiceFailure(error.message));
             };
+
          },
          [item, dispatch, history]
   );

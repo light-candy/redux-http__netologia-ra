@@ -38,10 +38,10 @@ export function ServiceList(){
                     throw new Error(response.statusText);
                 }
                 dispatch(removeServiceSuccess());
+                fetchServices(dispatch);
               }  catch(error) {
                   dispatch(removeServiceFailure(error.message));
               }
-              fetchServices(dispatch);
            },
            [dispatch]
     );
